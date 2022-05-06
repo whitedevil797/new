@@ -1,0 +1,155 @@
+#bfs
+graph={
+    '5':['3','7'],
+    '3':['2','4'],
+    '7':['8'],
+    '2':[],
+    '4':['8'],
+    '8':[]
+
+}
+visited=[]
+queue=[]
+def bfs(visited,graph,node):
+    visited.append(node)
+    queue.append(node)
+    while queue:
+        m=queue.pop(0)
+        print(m,end=" ")
+        for neighbour in graph[m]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+print("bfs")
+bfs(visited,graph,'5')
+.............
+#crypto
+import itertools
+def solve():
+    letters=['t','w','o','f','u','r']
+    digits=range(10)
+    for perm in itertools.permutations(digits,len(letters)):
+        sol=dict(zip(letters,perm))
+        if sol['t']==0:
+            continue
+        two=100*sol['t']+10*sol['w']+sol['o']
+        two1=100*sol['t']+10*sol['w']+sol['o']
+        four=1000*sol['f']+100*sol['o']+10*sol['u']+sol['r']
+        if two+two==four:
+            print("t+t=f")
+            return two,two1,four
+print(solve())
+.............
+#dfs
+graph={
+    '5':['3','7'],
+    '3':['2','4'],
+    '7':['8'],
+    '2':[],
+    '4':['8'],
+    '8':[]
+
+}
+visited=set()
+def dfs(visited,graph,node):
+    if node not in visited:
+        print(node)
+        visited.add(node)
+        for neighbour in graph:
+            dfs(visited,graph,neighbour)
+print("dfs")
+dfs(visited,graph,'5')
+................
+#camel
+total=int(input("t "))
+distance=int(input("d "))
+load=int(input("l "))
+lose=0
+start=total
+for i in range(distance):
+    while start>0:
+        start=start-load
+        if start==1:
+            lose=lose-1
+        lose=lose+2
+    lose=lose-1
+    start=total-lose
+    if start==0:
+        break
+print(start)
+..............
+#graph
+colors=['red','green','blue']
+states=['sa','re','ga','ma','pa','da','ne']
+neighbour={}
+neighbour['sa']=['re','ga']
+neighbour['re']=['sa','ga','ma']
+neighbour['ga']=['sa','re','ma','pa','da']
+neighbour['ma']=['re','ga','pa']
+neighbour['pa']=['ga','ma','da']
+neighbour['da']=['ga','pa']
+neighbour['ne']=[]
+
+
+cos={}
+def promise(state,color):
+    for n in neighbour.get(state):
+        con=cos.get(n)
+        if con==color:
+            return False
+    return True
+def gcos(state):
+    for color in colors:
+        if promise(state,color):
+            return color
+def main():
+    for state in states:
+        cos[state]=gcos(state)
+    print(cos)
+main()
+..........
+#a*
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+void findpath(vector<pair<int,int>> adj[],int n,int src,int des,int heu[])
+{
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+    pq.push({heu[src],src});
+    while(pq.empty()==false)
+    {
+        int x=pq.top().second;
+        cout<<x<<" ";
+        pq.pop();
+        if(x==des)
+          break;
+        while(pq.empty()==false)
+            pq.pop();
+        for(auto it:adj[x])
+        {
+            pq.push({it.second+heu[it.first],it.first});
+            
+        }
+    }
+}
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<pair<int,int>> adj[n+1];
+    for(int i=0;i<m;i++)
+    {
+        int u,v,cost;
+        cin>>u>>v>>cost;
+        adj[u].push_back({v,cost});
+    }
+    cout<<"Enter heutistc"<<endl;
+    int heu[n+1];
+    for(int i=1;i<=n;i++)
+    {
+        cin>>heu[i];
+    }
+    int src,des;
+    cin>>src>>des;
+    findpath(adj,n,src,des,heu);
+}
